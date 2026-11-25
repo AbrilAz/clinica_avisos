@@ -1,0 +1,12 @@
+# Defensa adicional si alguien quita el Alias y accede por ruta fisica.
+Options -Indexes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(?:app|config|scripts|storage)(?:/|$) - [F,L,NC]
+    RewriteRule ^(?:\.|.*(?:\.sql|\.ini|\.log|\.bak|\.env|\.md)$) - [F,L,NC]
+    RewriteCond %{REQUEST_URI} !^/clinica_avisos/public/ [NC]
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+<FilesMatch "(^\.|\.(?:sql|ini|log|bak|env|md|example|zip)$)">
+    Require all denied
+</FilesMatch>

@@ -1,0 +1,23 @@
+# Agregar AL FINAL de C:/xampp/apache/conf/httpd.conf, con permiso del administrador.
+# Hace que http://192.168.20.132/clinica_avisos/ sirva SOLO el directorio public.
+# Importante: no crear un Alias que apunte a la raiz del proyecto.
+
+<Directory "C:/xampp/htdocs/clinica_avisos">
+    AllowOverride None
+    Require all denied
+    Options -Indexes
+</Directory>
+
+Alias "/clinica_avisos" "C:/xampp/htdocs/clinica_avisos/public"
+
+<Directory "C:/xampp/htdocs/clinica_avisos/public">
+    AllowOverride None
+    Require all granted
+    Options -Indexes
+    DirectoryIndex index.php
+</Directory>
+
+# ANTES de reiniciar: C:\xampp\apache\bin\httpd.exe -t
+# Para comprobar la proteccion, /clinica_avisos/app/security.php y
+# /clinica_avisos/config/config.php deben devolver 403 o 404.
+# Aviso: Apache no protege el acceso fisico mediante Windows; controlar ACL.

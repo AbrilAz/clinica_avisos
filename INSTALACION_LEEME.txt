@@ -1,0 +1,60 @@
+CLINICA_AVISOS - UMAM - VERSION DEMOSTRACION LOCAL/RED AISLADA
+===============================================================
+
+ESTRUCTURA EN UNA CARPETA
+C:\xampp\htdocs\clinica_avisos\
+    public\ (solo parte publicada)
+    app\, config\, scripts\, storage\ (privados)
+
+1) RESPALDOS
+   Guardar copia de ambas carpetas actuales y exportar equipo_9 en phpMyAdmin.
+   Detener Apache antes de sustituir el proyecto.
+
+2) ARCHIVOS
+   Descomprimir y copiar clinica_avisos a C:\xampp\htdocs\clinica_avisos.
+   No dejar copias de config.php dentro de public. No subir claves a ZIP compartidos.
+
+3) APACHE (OBLIGATORIO PARA ESTE DISEÑO)
+   Con permiso del responsable de XAMPP, agregar al final de httpd.conf
+   el contenido de APACHE_CONFIG_EJEMPLO.txt.
+   Esta regla impide a Apache acceder a carpetas privadas incluso si AllowOverride
+   deshabilita los .htaccess. No sobrescribir otras configuraciones Apache.
+   Comprobar sintaxis con C:\xampp\apache\bin\httpd.exe -t.
+   Reiniciar Apache tras una prueba de sintaxis exitosa.
+
+4) CONFIGURACION DE LA BASE DE DATOS
+   Copiar config\config.example.php a config\config.php en el mismo lugar.
+   Colocar nombre de usuario y contrasena reales de MariaDB solo en el servidor.
+   El host es 127.0.0.1 porque Apache y MariaDB corren en el mismo servidor;
+   el puerto 3307 corresponde al my.ini indicado (verificar servicio encendido).
+   NO cambiar ni borrar las seis tablas de equipo_9.
+
+5) CARPETAS ESCRIBIBLES
+   Asegurar permisos de escritura para la cuenta Apache solo en
+   storage\limites y storage\verificaciones; no dar acceso de escritura a Todos.
+   Confirmar que C:\xampp\tmp o session.save_path exista y sea escribible.
+
+6) PRUEBAS
+   Abrir http://localhost/clinica_avisos/ en el servidor.
+   Comprobar desde un navegador que estos dos enlaces NO muestren contenido:
+   http://localhost/clinica_avisos/config/config.php
+   http://localhost/clinica_avisos/app/security.php
+   Ambos deben mostrar 403 o 404. Si no, NO USAR el sistema.
+   La carpeta /public no debe publicarse con un segundo alias.
+   Abrir el formulario de registro, comprobar CSRF, login y roles.
+   Para prueba con otra PC autorizada: http://192.168.20.132/clinica_avisos/
+   Sin HTTPS no introducir credenciales reales desde red no confiable.
+
+7) VERIFICACION DE DEMOSTRACION
+   Para leer un codigo SOLO EN CONSOLA DEL SERVIDOR (no URL):
+   C:\xampp\php\php.exe C:\xampp\htdocs\clinica_avisos\scripts\mostrar-codigo.php CORREO_FICTICIO
+   Esta version NO verifica la titularidad real del correo.
+   No publicar en Internet ni usar cuentas reales sin SMTP, HTTPS y pruebas.
+
+IMPORTANTE
+- Se ha preparado la estructura y comprobado la sintaxis PHP, pero no se ha
+  ejecutado una prueba funcional contra tu XAMPP / MariaDB.
+- Si el login presenta "Solicitud no autorizada", revisar cookies EQ9SESSID,
+  sesion PHP y el path /clinica_avisos/ en app/bootstrap.php.
+- Si sale SQLSTATE[HY000] [2002], comprobar mysql en verde y puerto 3307.
+- No copiar config.php de CicloAgenda a este proyecto.
